@@ -5,13 +5,13 @@ Funciona tanto por **WiFi** como por **Bluetooth**, y se integra en Linux median
 
 ---
 
-## ✨ Características
+## Características
 - Emulación de un **mando de Xbox 360** en Linux.
 - Soporte para **stick analógico** (mediante acelerómetro del teléfono).
 - **D-Pad y botones A, B, X, Y, L, R, Start, Select**.
 - Conexión por:
-  - 📡 **WiFi** (TCP socket).
-  - 🔵 **Bluetooth RFCOMM**.
+  - **WiFi** (TCP socket).
+  - **Bluetooth RFCOMM**.
 - Compatible con:
   - Juegos de **Steam**.
   - Emuladores.
