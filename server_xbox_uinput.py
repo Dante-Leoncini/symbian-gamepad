@@ -56,8 +56,8 @@ def apply_state(stick_x, stick_y, buttons, dpad):
         state = buttons[i]
         ui.write(e.EV_KEY, btn, state)
         btn_states.append(state)
-    if any(btn_states):
-        print(f"[BUTTONS] {btn_states}")
+    #if any(btn_states):
+        #print(f"[BUTTONS] {btn_states}")
 
     ui.syn()
 
@@ -72,14 +72,19 @@ try:
         conn, addr = server.accept()
         print("Cliente conectado desde:", addr)
         try:
+            buffer = b""
             while True:
-                data = conn.recv(6)
-                if len(data) < 6:
-                    continue
-                stick_x, stick_y, btn_byte, dpad_byte = struct.unpack('<hhBB', data)
-                buttons = [(btn_byte >> i) & 1 for i in range(8)]
-                dpad = [(dpad_byte >> i) & 1 for i in range(4)]
-                apply_state(stick_x, stick_y, buttons, dpad)
+                data = conn.recv(1024)
+                if not data:
+                    print("Cliente desconectado!!!!!!!!!!!!!!!")
+                    break
+                buffer += data
+                while len(buffer) >= 6:
+                    packet, buffer = buffer[:6], buffer[6:]
+                    stick_x, stick_y, btn_byte, dpad_byte = struct.unpack('<hhBB', packet)
+                    buttons = [(btn_byte >> i) & 1 for i in range(8)]
+                    dpad = [(dpad_byte >> i) & 1 for i in range(4)]
+                    apply_state(stick_x, stick_y, buttons, dpad)
         except Exception as e:
             print("Error cliente:", e)
         finally:
